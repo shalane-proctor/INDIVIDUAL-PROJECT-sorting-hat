@@ -1,5 +1,18 @@
 // ****** DATA ******** //
-let students = [{ name: "", house: "", expel: Boolean }];
+let students = [
+  {
+    name: "Harry",
+    house: "Gryffindor",
+  },
+  {
+    name: "Harry",
+    house: "Gryffindor",
+  },
+  {
+    name: "Harry",
+    house: "Gryffindor",
+  },
+];
 let houses = ["Slytherin", "Hufflepuff", "Ravenclaw", "Gryffindor"];
 
 // ****** UTILITY FUNCTION ******** //
@@ -18,11 +31,13 @@ const source = () => {
 
 <div>
   <h6>Enter First Year's Name</h6>
+  <form>
     <div class="input-group mb-3">
       <div>Student:</div>
       <input id="name" type="text" class="form-control" placeholder="Student Name" aria-label="Student Name" aria-describedby="button-addon2">
       <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Sort!</button>
   </div>
+  </form>
 </div>
 
   <div id="filterBtnContainer">
@@ -79,19 +94,25 @@ const expelOnDom = (array) => {
 // ****** EVENT LISTNERS ******** //
 // submit //
 const eventListeners = () => {
-  const form = document.querySelector("input");
-  form.addEventListener("click", (e) => {
+  const form = document.querySelector("form");
+  form.addEventListener("submit", (e) => {
     e.preventDefault();
     const newStudent = {
       name: document.querySelector("#name").value,
     };
     source();
     students.push(newStudent);
-    // form.reset();
+    cardsOnDom(students);
+    // renderToDom("#studentCards", domString);
+    console.log(newStudent);
+    form.reset();
   });
 };
 // filter //
 // buttons on card //
-source();
-cardsOnDom(students);
-eventListeners();
+const startApp = () => {
+  source();
+  cardsOnDom(students);
+  eventListeners();
+};
+startApp();
