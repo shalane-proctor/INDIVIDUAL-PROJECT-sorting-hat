@@ -1,19 +1,7 @@
 // ****** DATA ******** //
-let students = [
-  {
-    name: "Harry",
-    house: "Gryffindor",
-  },
-  {
-    name: "Harry",
-    house: "Gryffindor",
-  },
-  {
-    name: "Harry",
-    house: "Gryffindor",
-  },
-];
+let students = [];
 let houses = ["Slytherin", "Hufflepuff", "Ravenclaw", "Gryffindor"];
+let army = [];
 
 // ****** UTILITY FUNCTION ******** //
 const renderToDom = (divId, textToRender) => {
@@ -29,16 +17,14 @@ const source = () => {
   <h5>Thestral dirigible plums, Viktor Krum hexed memory charm Animagus Invisibility Cloak three-headed Dog. Half-Blood Prince Invisibility Cloak cauldron cakes, hiya Harry! Grindlewald pig’s tail Sorcerer's Stone biting teacup. Side-along dragon-scale suits Filch 20 points, Mr. Potter.</h5>
   
 
-<div>
   <h6>Enter First Year's Name</h6>
-  <form>
+  <form onsubmit="return false;">
     <div class="input-group mb-3">
       <div>Student:</div>
-      <input id="name" type="text" class="form-control" placeholder="Student Name" aria-label="Student Name" aria-describedby="button-addon2">
+      <input id="name" type="text" class="form-control" placeholder="Student Name" required>
       <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Sort!</button>
   </div>
   </form>
-</div>
 
   <div id="filterBtnContainer">
   <button id="all">All</button>
@@ -46,18 +32,23 @@ const source = () => {
   <button id="gryffindor">Gryffindor</button>
   <button id="ravenclaw">Ravenclaw</button>
   <button id="slytherin">Slytherin</button>
+  <button id="voldemortsArmy">Voldemort's Army</button>
   </div>
 
-  <div id="studentsContainer">
+<div id="allCards"> 
+
+  <div id="studentsContainer" class:"allStudents">
   <h3>First Year's</h3>
-    <div id="studentCards" class="card-container></div>
+    <div id="studentCards" class="card-container allStudents"></div>
   </div>
 
   <div id="armyContainer">
   <h3>Voldemorts Army</h3>
+    <div id="armyCards" class="card-container allStudents"></div>
+   </div> 
   </div>
-    <div id="armyCards" class="card-container"></div>
-  </div>`;
+</div>`;
+
   renderToDom("#source", domString);
 };
 
@@ -65,12 +56,16 @@ const source = () => {
 const cardsOnDom = (array) => {
   let domString = "";
   for (const student of array) {
-    domString += `<div class="card" style="width: 18rem;">
-  <img src="..." class="card-img-top" alt="...">
-  <div class="card-body">
-    <h5 class="card-title">${student.name}</h5>
-    <h4 class="card-text">${student.house}</h4>
-    <button id="expel--${student.name}" class="btn btn-primary">EXPEL</button>
+    domString += `
+<div class="row">
+  <div class="col-sm-6">
+    <div class="card" style="width: 250px;">
+      <div id=${student.color} class="card-body">
+        <h5 class="card-title" style="text-align: right;">${student.name}</h5>
+        <h4 class="card-text" style="text-align: right;">${student.house}</h4>
+        <button id="expel--${student.name}" class="btn btn-primary">EXPEL</button>
+        </div>
+      </div>
   </div>
 </div>`;
   }
@@ -80,8 +75,7 @@ const cardsOnDom = (array) => {
 const expelOnDom = (array) => {
   let domString = "";
   for (const student of array) {
-    domString += `<div class="card" style="width: 18rem;">
-  <img src="..." class="card-img-top" alt="...">
+    domString += `<div class="card" style="width: 250px;">
   <div class="card-body">
     <h5 class="card-title">${student.name}</h5>
     <h4 class="card-text">EXPELLED</h4>
@@ -97,22 +91,69 @@ const eventListeners = () => {
   const form = document.querySelector("form");
   form.addEventListener("submit", (e) => {
     e.preventDefault();
-    const newStudent = {
+    let sort = houses[Math.floor(Math.random() * houses.length)];
+    // let colorSort = () => {
+    let color;
+    if (sort === "Hufflepuff") {
+      color = "yellow";
+    } else if (sort === "Ravenclaw") {
+      color = "blue";
+    } else if (sort === "Slytherin") {
+      color = "green";
+    } else if (sort === "Gryffindor") {
+      color = "red";
+    } else {
+      color = "black";
+    }
+    let newStudent = {
       name: document.querySelector("#name").value,
+      house: sort,
+      color: color,
     };
-    source();
+
     students.push(newStudent);
     cardsOnDom(students);
-    // renderToDom("#studentCards", domString);
     console.log(newStudent);
     form.reset();
   });
+
+  // filter //
+  document
+    .querySelector("#filterBtnContainer")
+    .addEventListener("click", (e) => {
+      if (e.target.id === "all") {
+        cardsOnDom(students);
+        expelOnDom(army);
+      } else if (e.target.id) {
+        const houseOfStudent = students.filter(
+          (houseName) => houseName.house.toLowerCase() === e.target.id
+        );
+        console.log(houseOfStudent);
+        cardsOnDom(houseOfStudent);
+      }
+    });
+
+  // buttons on card //
+  document.querySelector("#allCards").addEventListener("click", (e) => {
+    if (e.target.id) {
+      const [expelId] = e.target.id.split("--");
+      const nameOfStudent = students.findIndex(
+        (nameOfExpelled) => nameOfExpelled.name === expelId
+      );
+      if (e.target.id.includes("expel")) {
+        army.push(students.splice(nameOfStudent, 1)[0]);
+        cardsOnDom(students);
+        expelOnDom(army);
+        console.log(army);
+      }
+    }
+  });
 };
-// filter //
-// buttons on card //
+// ****** START ******** //
 const startApp = () => {
   source();
   cardsOnDom(students);
+  expelOnDom(army);
   eventListeners();
 };
 startApp();

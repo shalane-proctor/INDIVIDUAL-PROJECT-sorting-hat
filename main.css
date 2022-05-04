@@ -1,3 +1,37 @@
 body {
   background-color: aquamarine;
 }
+#allCards {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+#studentsContainer {
+  width: 50%;
+  flex-direction: column;
+}
+#studentsContainer {
+  width: 50%;
+  flex-direction: column;
+}
+
+.allStudents {
+  display: flex;
+  flex-flow: row wrap;
+  text-align: center;
+  /* height: 200px;
+  width: 300px; */
+}
+#green {
+  background: linear-gradient(135deg, green 40%, white 40%);
+  /* background-size: ; */
+}
+#yellow {
+  background: linear-gradient(135deg, yellow 40%, white 40%);
+}
+#blue {
+  background: linear-gradient(135deg, blue 40%, white 40%);
+}
+#red {
+  background: linear-gradient(135deg, red 40%, white 40%);
+}
