@@ -13,14 +13,15 @@ const renderToDom = (divId, textToRender) => {
 // html setup //
 const source = () => {
   const domString = `<div id="main">
-  <h1>Welcome to Hogwarts!</h1>
-  <h5>Thestral dirigible plums, Viktor Krum hexed memory charm Animagus Invisibility Cloak three-headed Dog. Half-Blood Prince Invisibility Cloak cauldron cakes, hiya Harry! Grindlewald pig’s tail Sorcerer's Stone biting teacup. Side-along dragon-scale suits Filch 20 points, Mr. Potter.</h5>
-  
-
+  <div id="opener">
+    <h1>Welcome to Hogwarts!</h1>
+    <h5>Thestral dirigible plums, Viktor Krum hexed memory charm Animagus Invisibility Cloak three-headed Dog. Half-Blood Prince Invisibility Cloak cauldron cakes, hiya Harry! Grindlewald pig’s tail Sorcerer's Stone biting teacup. Side-along dragon-scale suits Filch 20 points, Mr. Potter.</h5>
+  </div>
   <h6>Enter First Year's Name</h6>
+
   <form onsubmit="return false;">
     <div class="input-group mb-3">
-      <div>Student:</div>
+      <div id="formName">Student:</div>
       <input id="name" type="text" class="form-control" placeholder="Student Name" required>
       <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Sort!</button>
   </div>
@@ -63,7 +64,7 @@ const cardsOnDom = (array) => {
       <div id=${student.color} class="card-body">
         <h5 class="card-title" style="text-align: right;">${student.name}</h5>
         <h4 class="card-text" style="text-align: right;">${student.house}</h4>
-        <button id="expel--${student.name}" class="btn btn-primary">EXPEL</button>
+        <button id="expel--${student.id}" class="btn btn-primary">EXPEL</button>
         </div>
       </div>
   </div>
@@ -75,7 +76,7 @@ const cardsOnDom = (array) => {
 const expelOnDom = (array) => {
   let domString = "";
   for (const student of array) {
-    domString += `<div class="card" style="width: 250px;">
+    domString += `<div id="black" class="card" style="width: 250px;">
   <div class="card-body">
     <h5 class="card-title">${student.name}</h5>
     <h4 class="card-text">EXPELLED</h4>
@@ -88,6 +89,11 @@ const expelOnDom = (array) => {
 // ****** EVENT LISTNERS ******** //
 // submit //
 const eventListeners = () => {
+  let addId = () => {
+    students.forEach((item, index) => {
+      item.id = index + 1;
+    });
+  };
   const form = document.querySelector("form");
   form.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -112,8 +118,10 @@ const eventListeners = () => {
     };
 
     students.push(newStudent);
+
     cardsOnDom(students);
     console.log(newStudent);
+    addId();
     form.reset();
   });
 
@@ -137,11 +145,11 @@ const eventListeners = () => {
   document.querySelector("#allCards").addEventListener("click", (e) => {
     if (e.target.id) {
       const [expelId] = e.target.id.split("--");
-      const nameOfStudent = students.findIndex(
-        (nameOfExpelled) => nameOfExpelled.name === expelId
+      const idOfStudent = students.findIndex(
+        (nameOfExpelled) => (nameOfExpelled.id = expelId)
       );
       if (e.target.id.includes("expel")) {
-        army.push(students.splice(nameOfStudent, 1)[0]);
+        army.push(students.splice(idOfStudent, 1)[0]);
         cardsOnDom(students);
         expelOnDom(army);
         console.log(army);
