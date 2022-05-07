@@ -1,16 +1,11 @@
 body {
-  /* background: linear-gradient(
-    to bottom,
-    rgb(120, 62, 23) 0%,
-    #2715c1 30%,
-    #fbed32 50%,
-    #c11515 70%,
-    #238d53 100%
-  );
-  /* background-repeat: no-repeat; */
-  /* background-attachment: fixed; */
   background-image: url("https://preview.redd.it/a02u2ae0ede11.png?width=720&format=png&auto=webp&s=26ab39a344f5ef43440958387ea2f2e893820826");
   background-size: cover;
+  font-family: "Water Brush", cursive;
+  margin: 20px;
+}
+#filterBtnContainer {
+  margin: 20px 5px 20px 5px;
 }
 
 #main {
@@ -19,6 +14,8 @@ body {
 
 #opener {
   margin: 30px;
+  background-color: rgba(250, 235, 215, 0.683);
+  border-radius: 30px;
 }
 
 form {
@@ -28,6 +25,9 @@ form {
   margin: 4px 5px 0px 0px;
   font-size: 20px;
 }
+#sort {
+  background-color: antiquewhite;
+}
 
 #allCards {
   display: flex;
@@ -36,11 +36,26 @@ form {
 
 #studentsContainer {
   width: 50%;
+  height: 1000px;
   flex-direction: column;
+  background-color: rgba(144, 79, 0, 0.566);
+  border-radius: 30px;
 }
+#studentsContainer h3 {
+  margin: 10px;
+}
+
 #armyContainer {
+  height: 1000px;
   width: 50%;
   flex-direction: column;
+  background-color: rgba(0, 0, 0, 0.498);
+  border-radius: 30px;
+}
+
+#armyContainer h3 {
+  margin: 10px;
+  color: antiquewhite;
 }
 
 .allStudents {
@@ -66,4 +81,10 @@ form {
 #black {
   color: lightgray;
   background-color: black;
+}
+#studentCards {
+  margin: 20px;
+}
+#armyCards {
+  margin: 20px;
 }

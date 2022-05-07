@@ -23,28 +23,28 @@ const source = () => {
     <div class="input-group mb-3">
       <div id="formName">Student:</div>
       <input id="name" type="text" class="form-control" placeholder="Student Name" required>
-      <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Sort!</button>
+      <button id="sort" class="btn btn-outline-secondary" type="submit" id="button-addon2">Sort!<i class="fa-solid fa-hat-wizard"></i></button>
   </div>
   </form>
 
   <div id="filterBtnContainer">
-  <button id="all">All</button>
-  <button id="hufflepuff">Hufflepuff</button>
-  <button id="gryffindor">Gryffindor</button>
-  <button id="ravenclaw">Ravenclaw</button>
-  <button id="slytherin">Slytherin</button>
-  <button id="voldemortsArmy">Voldemort's Army</button>
+  <button id="all type="button" class="btn btn-secondary"">All</button>
+  <button id="hufflepuff" type="button" class="btn btn-warning">Hufflepuff</button>
+  <button id="gryffindor" type="button" class="btn btn-danger">Gryffindor</button>
+  <button id="ravenclaw" type="button" class="btn btn-primary">Ravenclaw</button>
+  <button id="slytherin" type="button" class="btn btn-success">Slytherin</button>
+  <button id="voldemortsArmy" type="button" class="btn btn-dark">Voldemort's Army</button>
   </div>
 
 <div id="allCards"> 
 
   <div id="studentsContainer" class:"allStudents">
-  <h3>First Year's</h3>
+  <h3>First Year's <i class="fa-solid fa-broom"></i></h3>
     <div id="studentCards" class="card-container allStudents"></div>
   </div>
 
   <div id="armyContainer">
-  <h3>Voldemorts Army</h3>
+  <h3>Voldemorts Army <i class="fa-solid fa-skull-crossbones"></i></h3>
     <div id="armyCards" class="card-container allStudents"></div>
    </div> 
   </div>
@@ -143,20 +143,20 @@ const eventListeners = () => {
 
   // buttons on card //
   document.querySelector("#allCards").addEventListener("click", (e) => {
-    if (e.target.id) {
-      const [expelId] = e.target.id.split("--");
+    if (e.target.id.includes("expel")) {
+      const [method, expelId] = e.target.id.split("--");
+      console.log(expelId);
       const idOfStudent = students.findIndex(
-        (nameOfExpelled) => (nameOfExpelled.id = expelId)
+        (nameOfExpelled) => nameOfExpelled.id === parseInt(expelId)
       );
-      if (e.target.id.includes("expel")) {
-        army.push(students.splice(idOfStudent, 1)[0]);
-        cardsOnDom(students);
-        expelOnDom(army);
-        console.log(army);
-      }
+      army.push(students.splice(idOfStudent, 1)[0]);
+      cardsOnDom(students);
+      expelOnDom(army);
+      console.log(army);
     }
   });
 };
+
 // ****** START ******** //
 const startApp = () => {
   source();
